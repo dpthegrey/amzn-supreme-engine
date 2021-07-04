@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dpthegrey/amzn-supreme-engine#readme",
   "dependencies": {
-    "got": "^11.8.2"
+    "got": "^11.8.2",
+    "node-html-parser": "^3.3.6"
   }
 }

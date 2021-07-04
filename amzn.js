@@ -1,7 +1,7 @@
 const got = require("got");
+const HTMLParser = require("node-html-parser");
 
-const productLink =
-  "https://www.amazon.in/Apple-MacBook-Chip-13-inch-512GB/dp/B08N5WRWNW";
+const productLink = "https://www.amazon.in/dp/B073Q5R6VR";
 
 async function Monitor() {
   var myheaders = {
@@ -27,7 +27,27 @@ async function Monitor() {
   const response = await got(productLink, {
     headers: myheaders,
   });
-  console.log(response.statusCode);
+
+  if (response && response.statusCode == 200) {
+    let root = HTMLParser.parse(response.body);
+    let availabilityDiv = root.querySelector("#availability");
+    if (availabilityDiv) {
+      let productName = productLink.substring(
+        productLink.indexOf("com/") + 4,
+        productLink.indexOf("/dp")
+      );
+      let stockText = availabilityDiv.childNodes[1].innerText.toLowerCase();
+      if (stockText == "out of stock") {
+        console.log("OUT OF STOCK");
+      } else {
+        console.log("IN STOCK");
+      }
+    }
+  }
+
+  await new Promise((r) => setTimeout(r, 8000));
+  Monitor();
+  return false;
 }
 
 Monitor();
