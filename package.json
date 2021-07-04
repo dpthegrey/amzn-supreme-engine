@@ -1,0 +1,22 @@
+{
+  "name": "amzn-supreme-engine",
+  "version": "1.0.0",
+  "description": "An Amazon Stock Monitor App",
+  "main": "amzn.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpthegrey/amzn-supreme-engine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dpthegrey/amzn-supreme-engine/issues"
+  },
+  "homepage": "https://github.com/dpthegrey/amzn-supreme-engine#readme",
+  "dependencies": {
+    "got": "^11.8.2"
+  }
+}
