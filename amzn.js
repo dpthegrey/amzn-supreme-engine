@@ -2,9 +2,9 @@ const got = require("got");
 const HTMLParser = require("node-html-parser");
 const prompt = require("prompt-sync")();
 
-const productLink = "https://www.amazon.in/dp/B073Q5R6VR";
+// const productLink = "https://www.amazon.in/dp/B073Q5R6VR";
 
-async function Monitor() {
+async function Monitor(productLink) {
   var myheaders = {
     connection: "keep-alive",
     "sec-ch-ua": `" Not;A Brand";v="99", "Google Chrome":v="91", "Chromium";v="91"`,
@@ -47,8 +47,19 @@ async function Monitor() {
   }
 
   await new Promise((r) => setTimeout(r, 8000));
-  Monitor();
+  Monitor(productLink);
   return false;
 }
 
-Monitor();
+async function Run() {
+  let productLink = prompt("Enter link to monitor: ");
+  if (productLink.indexOf("http") >= 0) {
+    console.log("Now monitoring " + productLink);
+  } else {
+    console.log("ERROR, Invald URL");
+  }
+
+  Monitor(productLink);
+}
+
+Run();
