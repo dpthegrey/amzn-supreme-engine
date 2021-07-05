@@ -1,5 +1,6 @@
 const got = require("got");
 const HTMLParser = require("node-html-parser");
+const prompt = require("prompt-sync")();
 
 const productLink = "https://www.amazon.in/dp/B073Q5R6VR";
 
