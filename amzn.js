@@ -1,5 +1,6 @@
 const got = require("got");
 const HTMLParser = require("node-html-parser");
+const { resolve, reject } = require("p-cancelable");
 const prompt = require("prompt-sync")();
 
 // const productLink = "https://www.amazon.in/dp/B073Q5R6VR";
@@ -39,9 +40,9 @@ async function Monitor(productLink) {
       );
       let stockText = availabilityDiv.childNodes[1].innerText.toLowerCase();
       if (stockText == "out of stock") {
-        console.log("OUT OF STOCK");
+        console.log(productName + " OUT OF STOCK");
       } else {
-        console.log("IN STOCK");
+        console.log(productName + " IN STOCK");
       }
     }
   }
@@ -52,14 +53,31 @@ async function Monitor(productLink) {
 }
 
 async function Run() {
-  let productLink = prompt("Enter link to monitor: ");
-  if (productLink.indexOf("http") >= 0) {
-    console.log("Now monitoring " + productLink);
-  } else {
-    console.log("ERROR, Invald URL");
+  let productLinks = prompt("Enter links to monitor (separate by comma): ");
+
+  var productLinksArr = productLinks.split(",");
+
+  // trims down the whitespaces in array
+  for (var i = 0; i < productLinksArr.length; i++) {
+    productLinksArr[i] = productLinksArr[i].trim();
   }
 
-  Monitor(productLink);
+  console.log(productLinksArr);
+
+  var monitors = []; // array of Promises
+
+  productLinksArr.forEach((link) => {
+    var p = new Promise((resolve, reject) => {
+      resolve(Monitor(link));
+    }).catch((err) => console.log(err));
+
+    monitors.push(p);
+  });
+
+  await Promise.allSettled(monitors);
+
+  console.log(productLinksArr);
+  //   Monitor(productLink);
 }
 
 Run();
